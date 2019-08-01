@@ -1,0 +1,25 @@
+{
+  "name": "farbenite-bot",
+  "version": "0.1.0",
+  "description": "Farbenite Twitter bot",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisBrime/farbenite-bot.git"
+  },
+  "author": "Luis Brime",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuisBrime/farbenite-bot/issues"
+  },
+  "homepage": "https://github.com/LuisBrime/farbenite-bot#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "gm": "^1.23.1",
+    "twit": "^2.2.11"
+  }
+}
