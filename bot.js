@@ -35,7 +35,7 @@ function tweet() {
                 + hexs[0] + ' ' + hexs[1] + ' ' + hexs[2] + ' ' + hexs[3] + ' ' + hexs[4];
             
             exec(cmd, function() {
-                const filename = 'farbenite/output.png';
+                const filename = './farbenite/output.png';
                 var en = { encoding: 'base64' };
                 var b64 = fs.readFileSync(filename, en);
 
