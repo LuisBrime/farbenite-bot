@@ -23,12 +23,16 @@ int r5, g5, b5;
 //processing-java --sketch=`pwd`/sketch_test --output=`pwd`/output_test --build --force
 
 public void setup() {
+  r1 = PApplet.parseInt(args[0]);
+  g1 = PApplet.parseInt(args[0]);
+  b1 = PApplet.parseInt(args[0]);
+  
   
   background(240, 245, 244);
   // Fist rectangle
   noStroke();
-  fill(198, 199, 148);
-  //fill(r1, g1, b1);
+  //fill(198, 199, 148);
+  fill(r1, g1, b1);
   rect(0, 0, 240, 675);
   // Second rectangle
   noStroke();
