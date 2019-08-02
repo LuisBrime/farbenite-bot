@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var T = new Twit(config);
 
-const cmd = './farbenite/farbenite ';
+var cmd = './farbenite/farbenite ';
 const params = {
     method: 'post',
     url: 'http://colormind.io/api/',
