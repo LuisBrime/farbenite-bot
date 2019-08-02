@@ -24,7 +24,7 @@ function tweet() {
             let hexs = [];
 
             for (var i = 0; i < colors.length; i++) {
-                hexs[i] = fullRGB2HEX(colors[i][0], colors[i][1], colrs[i][2]);
+                hexs[i] = fullRGB2HEX(colors[i][0], colors[i][1], colors[i][2]);
             }
 
             cmd += colors[0][0] + ' ' + colors[0][1] + ' ' + colors[0][2] + ' '
