@@ -48,7 +48,6 @@ function tweet() {
                 function uploaded(err, data, response) {
                     var id = data.media_id_string;
                     var tuit = {
-                        status: 'Prueba woo',
                         media_ids: [id]
                     };
                     T.post('statuses/update', tuit, tweeted);
