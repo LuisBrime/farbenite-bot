@@ -85,5 +85,5 @@ const fullRGB2HEX = (r, g, b) => {
     var red = rgbToHex(r).toUpperCase();
     var green = rgbToHex(g).toUpperCase();
     var blue = rgbToHex(b).toUpperCase();
-    return '#'+red+green+blue;
+    return red+green+blue;
 }
