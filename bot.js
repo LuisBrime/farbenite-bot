@@ -16,6 +16,11 @@ const params = {
 };
 
 tweet();
+setInterval(tweet, 1000*60*60*24);
+
+var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
+
+stream.on('tweet', favorite);
 
 function tweet() {
     axios(params)
@@ -60,6 +65,12 @@ function tweet() {
         });
 }
 
+function favorite(tweet) {
+    var id = tweet.id;
+    
+    T.post('favorites/create', { id });
+}
+
 const rgbToHex = (rgb) => {
     var hex = Number (rgb).toString(16);
     if (hex.length < 2) {
@@ -69,8 +80,8 @@ const rgbToHex = (rgb) => {
 }
 
 const fullRGB2HEX = (r, g, b) => {
-    var red = rgbToHex(r);
-    var green = rgbToHex(g);
-    var blue = rgbToHex(b);
-    return red+green+blue;
+    var red = rgbToHex(r).toUpperCase();
+    var green = rgbToHex(g).toUpperCase();
+    var blue = rgbToHex(b).toUpperCase();
+    return '#'+red+green+blue;
 }
