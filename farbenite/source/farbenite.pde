@@ -52,4 +52,7 @@ void setup() {
   
   x = textWidth("#856F73");
   text("#856F73", 1080 - x/2, 450);
+  
+  save("./utils/output.png");
+  exit();
 }
