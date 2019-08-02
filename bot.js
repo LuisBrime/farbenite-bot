@@ -47,7 +47,7 @@ function tweet() {
                         status: 'Prueba woo',
                         media_ids: [id]
                     };
-                    T.post('statuses/update', t, tweeted);
+                    T.post('statuses/update', tuit, tweeted);
                 }
 
                 function tweeted(err, data, response) {
