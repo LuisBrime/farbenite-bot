@@ -25,3 +25,9 @@ yarn-error.log*
 node_modules/
 
 *.env
+err.log
+out.log
+nohup.out
+farbenite/nohup.out
+farbenite/output.png
+farbenite/utils/
