@@ -40,29 +40,33 @@ function tweet() {
                 + colors[4][0] + ' ' + colors[4][1] + ' ' + colors[4][2] + ' '
                 + hexs[0] + ' ' + hexs[1] + ' ' + hexs[2] + ' ' + hexs[3] + ' ' + hexs[4];
             
-            exec(cmd, function() {
-                console.log('––– PROCESSING IMAGE ENDED –––');
-                const filename = './farbenite/output.png';
-                var en = { encoding: 'base64' };
-                var b64 = fs.readFileSync(filename, en);
-
-                T.post('media/upload', { media_data: b64 }, uploaded);
-                function uploaded(err, data, response) {
-                    console.log('––– MEDIA UPLOADED –––');
-                    var id = data.media_id_string;
-                    var tuit = {
-                        media_ids: [id]
-                    };
-                    T.post('statuses/update', tuit, tweeted);
-                }
-
-                function tweeted(err, data, response) {
-                    if (err) {
-                        console.log('Error, ', err);
-                    } else {
-                        console.log('Success, ', response);
-                    }
-                }
+            exec('sudo nohup Xvfb :1 -screen 0 1024x768x24 &', function() {
+                exec('export DISPLAY=":1"', function() {
+                    exec(cmd, function() {
+                        console.log('––– PROCESSING IMAGE ENDED –––');
+                        const filename = './farbenite/output.png';
+                        var en = { encoding: 'base64' };
+                        var b64 = fs.readFileSync(filename, en);
+        
+                        T.post('media/upload', { media_data: b64 }, uploaded);
+                        function uploaded(err, data, response) {
+                            console.log('––– MEDIA UPLOADED –––');
+                            var id = data.media_id_string;
+                            var tuit = {
+                                media_ids: [id]
+                            };
+                            T.post('statuses/update', tuit, tweeted);
+                        }
+        
+                        function tweeted(err, data, response) {
+                            if (err) {
+                                console.log('Error, ', err);
+                            } else {
+                                console.log('Success, ', response);
+                            }
+                        }
+                    });
+                });
             });
         });
 }
