@@ -62,7 +62,7 @@ function tweet() {
                             if (err) {
                                 console.log('Error, ', err);
                             } else {
-                                console.log('Success, ', response);
+                                console.log('Success, ', data);
                             }
                         }
                     });
