@@ -72,7 +72,8 @@ function tweet() {
 }
 
 function favorite(tweet) {
-    var id = tweet.id;
+    console.log(tweet);
+    var id = tweet.id_str;
     
     T.post('favorites/create', { id });
 }
