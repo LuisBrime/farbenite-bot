@@ -15,14 +15,14 @@ const params = {
     }
 };
 
-tweet();
-setInterval(tweet, 1000*60*60*24);
+tweetImage();
+setInterval(tweetImage, 1000*60*60*24);
 
 var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
 
-stream.on('tweet', favorite);
+stream.on('tweet', mention);
 
-function tweet() {
+function tweetImage(replyTo, username) {
     axios(params)
         .then(response => {
             console.log('––– COLORMIND REQUEST SUCCESS –––');
@@ -52,18 +52,20 @@ function tweet() {
                         function uploaded(err, data, response) {
                             console.log('––– MEDIA UPLOADED –––');
                             var id = data.media_id_string;
-                            var tuit = {
-                                media_ids: [id]
-                            };
-                            T.post('statuses/update', tuit, tweeted);
-                        }
-        
-                        function tweeted(err, data, response) {
-                            if (err) {
-                                console.log('Error, ', err);
+                            var tuit;
+                            if (!replyTo) {
+                                tuit = {
+                                    media_ids: [id]
+                                };
                             } else {
-                                console.log('Success, ', data);
+                                tuit = {
+                                    media_ids: [id],
+                                    in_reply_to_status_id: replyTo,
+                                    status: '@' + username
+                                };
                             }
+                            
+                            tweet(tuit);
                         }
                     });
                 });
@@ -71,11 +73,28 @@ function tweet() {
         });
 }
 
-function favorite(tweet) {
-    console.log(tweet);
-    var id = tweet.id_str;
-    
-    T.post('favorites/create', { id });
+function tweet(tuit) {
+    T.post('statuses/update', tuit, tweeted);
+
+    function tweeted(err, data, response) {
+        if (err) {
+            console.log('Error, ', err);
+        } else {
+            console.log('Success, ', data);
+        }
+    }
+}
+
+function mention(tweet) {
+    let inReplyTo = tweet.in_reply_to_screen_name;
+    if (inReplyTo === 'farbenite') {
+        console.log(tweet);
+        let id = tweet.id_str;
+        let username = tweet.user.screen_name;
+
+        T.post('favorites/create', { id });
+        tweetImage(id, username);
+    }
 }
 
 const rgbToHex = (rgb) => {
