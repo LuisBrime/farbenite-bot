@@ -25,7 +25,7 @@ stream.on('tweet', mention);
 function tweetImage(replyTo, username) {
     axios(params)
         .then(response => {
-            console.log('––– COLORMIND REQUEST SUCCESS –––');
+            console.log('––– COLORMIND REQUEST SUCCESS –––', response.data.result);
             const colors = response.data.result;
             let hexs = [];
 
@@ -80,7 +80,7 @@ function tweet(tuit) {
         if (err) {
             console.log('Error, ', err);
         } else {
-            console.log('Success, ', data);
+            console.log('––– SUCCESS –––');
         }
     }
 }
