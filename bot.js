@@ -18,7 +18,7 @@ const params = {
 tweetImage();
 setInterval(tweetImage, 1000*60*60*24);
 
-var stream = T.stream('user');
+var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
 
 stream.on('tweet', mention);
 
@@ -86,7 +86,7 @@ function tweet(tuit) {
 function mention(tweet) {
     let inReplyTo = tweet.in_reply_to_screen_name;
     if (inReplyTo === 'farbenite') {
-        console.log('––– MENTIONED –––', tweet.text, tweet.user.screen_name);
+        console.log('––– MENTIONED –––', tweet.text, tweet.user.screen);
         let id = tweet.id_str;
         let username = tweet.user.screen_name;
 
