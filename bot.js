@@ -18,14 +18,14 @@ const params = {
 tweetImage();
 setInterval(tweetImage, 1000*60*60*24);
 
-var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
+var stream = T.stream('user');
 
 stream.on('tweet', mention);
 
 function tweetImage(replyTo, username) {
     axios(params)
         .then(response => {
-            console.log('––– COLORMIND REQUEST SUCCESS –––', response.data.result);
+            console.log('––– COLORMIND REQUEST SUCCESS –––\n\t', response.data.result);
             const colors = response.data.result;
             let hexs = [];
 
@@ -40,34 +40,32 @@ function tweetImage(replyTo, username) {
                 + colors[4][0] + ' ' + colors[4][1] + ' ' + colors[4][2] + ' '
                 + hexs[0] + ' ' + hexs[1] + ' ' + hexs[2] + ' ' + hexs[3] + ' ' + hexs[4];
             
-            exec('sudo nohup Xvfb :1 -screen 0 1024x768x24 &', function() {
-                exec('export DISPLAY=":1"', function() {
-                    exec(cmd, function() {
-                        console.log('––– PROCESSING IMAGE ENDED –––');
-                        const filename = './farbenite/output.png';
-                        var en = { encoding: 'base64' };
-                        var b64 = fs.readFileSync(filename, en);
-        
-                        T.post('media/upload', { media_data: b64 }, uploaded);
-                        function uploaded(err, data, response) {
-                            console.log('––– MEDIA UPLOADED –––');
-                            var id = data.media_id_string;
-                            var tuit;
-                            if (!replyTo) {
-                                tuit = {
-                                    media_ids: [id]
-                                };
-                            } else {
-                                tuit = {
-                                    media_ids: [id],
-                                    in_reply_to_status_id: replyTo,
-                                    status: '@' + username
-                                };
-                            }
-                            
-                            tweet(tuit);
+            exec('export DISPLAY=":1"', function() {
+                exec(cmd, function() {
+                    console.log('––– PROCESSING IMAGE ENDED –––');
+                    const filename = './farbenite/output.png';
+                    var en = { encoding: 'base64' };
+                    var b64 = fs.readFileSync(filename, en);
+    
+                    T.post('media/upload', { media_data: b64 }, uploaded);
+                    function uploaded(err, data, response) {
+                        console.log('––– MEDIA UPLOADED –––');
+                        var id = data.media_id_string;
+                        var tuit;
+                        if (!replyTo) {
+                            tuit = {
+                                media_ids: [id]
+                            };
+                        } else {
+                            tuit = {
+                                media_ids: [id],
+                                in_reply_to_status_id: replyTo,
+                                status: '@' + username
+                            };
                         }
-                    });
+                        
+                        tweet(tuit);
+                    }
                 });
             });
         });
@@ -88,7 +86,7 @@ function tweet(tuit) {
 function mention(tweet) {
     let inReplyTo = tweet.in_reply_to_screen_name;
     if (inReplyTo === 'farbenite') {
-        console.log(tweet);
+        console.log('––– MENTIONED –––', tweet.text, tweet.user.screen_name);
         let id = tweet.id_str;
         let username = tweet.user.screen_name;
 
