@@ -102,7 +102,7 @@ function mention(tweet) {
 
 function goAndFollow(tweet) {
     let username = tweet.user.screen_name;
-    T.post('friendships/create', { username });
+    T.post('friendships/create', { screen_name: username });
 }
 
 const rgbToHex = (rgb) => {
