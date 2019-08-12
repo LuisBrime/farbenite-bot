@@ -20,7 +20,10 @@ setInterval(tweetImage, 1000*60*60*24);
 
 var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
 
+var secondStream = T.stream('statuses/filter', { track: ['color', 'palette'] });
+
 stream.on('tweet', mention);
+secondStream.on('tweet', goAndFollow);
 
 function tweetImage(replyTo, username) {
     axios(params)
@@ -95,6 +98,11 @@ function mention(tweet) {
         T.post('favorites/create', { id });
         //tweetImage(id, username);
     }
+}
+
+function goAndFollow(tweet) {
+    let username = tweet.user.screen_name;
+    T.post('friendships/create', { username });
 }
 
 const rgbToHex = (rgb) => {
