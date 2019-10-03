@@ -16,16 +16,13 @@ const params = {
 };
 
 tweetImage();
-setInterval(tweetImage, 1000*60*60*24);
+setInterval(tweetImage, 1000*60*60*2);
 
 var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
 
-var secondStream = T.stream('statuses/filter', { track: ['color', 'palette'] });
-
 stream.on('tweet', mention);
-secondStream.on('tweet', goAndFollow);
 
-function tweetImage(replyTo, username) {
+function tweetImage() {
     axios(params)
         .then(response => {
             console.log('––– COLORMIND REQUEST SUCCESS –––\n\t', response.data.result);
@@ -55,18 +52,9 @@ function tweetImage(replyTo, username) {
                         function uploaded(err, data, response) {
                             console.log('––– MEDIA UPLOADED –––');
                             var id = data.media_id_string;
-                            var tuit;
-                            if (!replyTo) {
-                                tuit = {
+                            var tuit = {
                                     media_ids: [id]
-                                };
-                            } else {
-                                tuit = {
-                                    media_ids: [id],
-                                    in_reply_to_status_id: replyTo,
-                                    status: '@' + username
-                                };
-                            }
+                            };
                             
                             tweet(tuit);
                         }
@@ -96,7 +84,6 @@ function mention(tweet) {
         let username = tweet.user.screen_name;
 
         T.post('favorites/create', { id });
-        //tweetImage(id, username);
     }
 }
 
