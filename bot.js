@@ -2,13 +2,13 @@ var Twit = require('twit');
 var config = require('./config');
 var axios = require('axios');
 var fs = require('fs');
-const { spawn, exec } = require('child_process');
+const { exec } = require('child_process');
 
 var T = new Twit(config);
 
 // Example command for Processing to create palette image.
 // ./farbenite/farbenite 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 F F F F F
-var cmd = './farbenite/farbenite ';
+var cmd = 'xvfb-run ./farbenite/farbenite ';
 
 // params to make the request to get the palette's colors.
 const params = {
@@ -51,15 +51,10 @@ function tweetImage() {
                 + colors[4][0] + ' ' + colors[4][1] + ' ' + colors[4][2] + ' '
                 + hexs[0] + ' ' + hexs[1] + ' ' + hexs[2] + ' ' + hexs[3] + ' ' + hexs[4];
             
-            //// TRICKY PART ////
-            // Executing command to create fake display on the EC2 instance,
-            // if there's no display, Processing command wont work.
-            exec('sudo Xvfb :1 -screen 0 1024x768x24 | export DISPLAY=":1"', function(err, stdout, stderr) {
+            exec(cmd, function(err, stdout, stderr) {
                 if (err) {
                     console.error(`exec error: ${err}`);
                 }
-
-                const child = spawn(cmd, { stdio: 'inherit', shell: true });
 
                 console.log('––– PROCESSING IMAGE ENDED –––');
                 // Enocde image to upload it
