@@ -61,16 +61,6 @@ function tweetImage() {
 
                 const child = spawn(cmd, { stdio: 'inherit', shell: true });
 
-                // Log anything Processing has to tell us.
-                child.stdout.on('data', (data) => {
-                    console.log(`Processing stdout: \n${data}`);
-                });
-                // If error occurs in Processing return so the bot doesn't tweet garbage image.
-                child.stderr.on('data', (data) => {
-                    console.error(`Processing error: \n${data}`);
-                    return;
-                });
-
                 console.log('––– PROCESSING IMAGE ENDED –––');
                 // Enocde image to upload it
                 const filename = './farbenite/output.png';
