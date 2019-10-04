@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 var T = new Twit(config);
 
 // Example command for Processing to create palette image.
-// ./farbenite/farbenite 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 F F F F F
+// xvfb-run ./farbenite/farbenite 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 F F F F F
 var cmd = 'xvfb-run ./farbenite/farbenite ';
 
 // params to make the request to get the palette's colors.
@@ -33,7 +33,7 @@ function tweetImage() {
     // Make the request to Colormind.
     axios(params)
         .then(response => {
-            console.log('––– COLORMIND REQUEST SUCCESS –––\n\t', response.data.result);
+            console.log('––– COLORMIND REQUEST SUCCESS –––\n', response.data.result);
             // RGB colors
             const colors = response.data.result;
 
@@ -50,6 +50,7 @@ function tweetImage() {
                 + colors[3][0] + ' ' + colors[3][1] + ' ' + colors[3][2] + ' ' 
                 + colors[4][0] + ' ' + colors[4][1] + ' ' + colors[4][2] + ' '
                 + hexs[0] + ' ' + hexs[1] + ' ' + hexs[2] + ' ' + hexs[3] + ' ' + hexs[4];
+            console.log('––– PROCESSING COMMAND DONE –––\n', cmd);
             
             exec(cmd, function(err, stdout, stderr) {
                 if (err) {
