@@ -6,10 +6,6 @@ const { exec } = require('child_process');
 
 var T = new Twit(config);
 
-// Example command for Processing to create palette image.
-// xvfb-run ./farbenite/farbenite 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 F F F F F
-var cmd = 'xvfb-run ./farbenite/farbenite ';
-
 // params to make the request to get the palette's colors.
 const params = {
     method: 'post',
@@ -42,6 +38,10 @@ function tweetImage() {
             for (var i = 0; i < colors.length; i++) {
                 hexs[i] = fullRGB2HEX(colors[i][0], colors[i][1], colors[i][2]);
             }
+
+            // Example command for Processing to create palette image.
+            // xvfb-run ./farbenite/farbenite 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 F F F F F
+            var cmd = 'xvfb-run ./farbenite/farbenite ';
 
             // Add the colors to the command for Processing.
             cmd += colors[0][0] + ' ' + colors[0][1] + ' ' + colors[0][2] + ' '
