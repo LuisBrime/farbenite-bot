@@ -17,7 +17,7 @@ const params = {
 
 // Tweet a image and set an interval to tweet.
 tweetImage();
-setInterval(tweetImage, 1000*60*60*5);
+setInterval(tweetImage, 1000*60*60*3);
 
 // Create a stream that will track all events where '@farbenite' appears.
 var stream = T.stream('statuses/filter', { track: ['@farbenite'] });
